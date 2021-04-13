@@ -165,6 +165,8 @@ function handleClick(e) {
     switchTurns();
     hoverClass();
   }
+  /*-sdbfsdfdsf***/
+
 }
 
 function endGame(draw) {
