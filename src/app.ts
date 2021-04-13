@@ -49,7 +49,6 @@ function handleClick(e) { /*--this is the main function of the game,.. and it ha
         switchTurns()
         hoverClass()
     }
-    /*-sdbfsdfdsf***/
 }
 
 function endGame(draw) {
