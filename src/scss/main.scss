@@ -1,0 +1,176 @@
+$cell-size: 100px;
+$mark-size: $cell-size * 0.9;
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*-------Mixins-------------*/
+@mixin character-x {
+  content: "";
+  position: absolute;
+  width: $mark-size * 0.15;
+  height: $mark-size;
+  background-color: black;
+}
+
+@mixin character-o {
+  content: "";
+  position: absolute;
+  width: $mark-size;
+  height: $mark-size;
+  background-color: black;
+  border-radius: 100vh;
+}
+/*-------End Mixins------*/
+
+.board {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(3, auto);
+
+  /*---Hover effect for cells if char X----*/
+
+  &.x .cell:not(.x):not(.circle):hover::before,
+  &.x .cell:not(.x):not(.circle):hover::after {
+    @include character-x();
+    background-color: lightgray;
+  }
+
+  &.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg);
+  }
+
+  &.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+  }
+
+  /*---Hover effect for cells if char O----*/
+
+  &.circle .cell:not(.x):not(.circle):hover::before,
+  &.circle .cell:not(.x):not(.circle):hover::after {
+    @include character-o();
+    background-color: lightgray;
+  }
+
+  &.circle .cell:not(.x):not(.circle):hover::after {
+    width: $mark-size * 0.7;
+    height: $mark-size * 0.7;
+    background-color: white;
+  }
+}
+
+.cell {
+  width: $cell-size;
+  height: $cell-size;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+
+  &:first-child,
+  &:nth-child(2),
+  &:nth-child(3) {
+    border-top: none;
+  }
+
+  &:last-child,
+  &:nth-child(7),
+  &:nth-child(8) {
+    border-bottom: none;
+  }
+
+  &:nth-child(3n + 1) {
+    border-left: none;
+  }
+
+  &:nth-child(3n + 3) {
+    border-right: none;
+  }
+
+  /*----Cursor change on an already selected box-----*/
+
+  &.x,
+  &.circle {
+    cursor: not-allowed;
+  }
+
+  /*---Creating the X shape-----*/
+
+  &.x::after,
+  &.x::before {
+    @include character-x();
+  }
+
+  &.x::after {
+    transform: rotate(45deg);
+  }
+
+  &.x::before {
+    transform: rotate(-45deg);
+  }
+
+  /*--Creating the O shape---**/
+
+  &.circle::after,
+  &.circle::before {
+    @include character-o();
+  }
+
+  &.circle::before {
+  }
+
+  &.circle::after {
+    width: $mark-size * 0.7;
+    height: $mark-size * 0.7;
+    background-color: white;
+  }
+}
+
+.winning-msg {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-size: 4rem;
+
+  &.show {
+    display: flex;
+  }
+
+  button {
+    font-size: 2.5rem;
+    padding: 5px 30px;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    border: 2px solid white;
+    border-radius: 100vh;
+    transition: all 300ms ease;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}
