@@ -55,7 +55,7 @@ function handleClick(e) { /*--this is the main function of the game,.. and it ha
     }
 }
 
-function endGame(draw) {
+function endGame(draw) { /*---displays if the game iS a Draw or Win---*/
     if (draw) {
         winningMsgTxt.innerHTML = "Draw😢"
     }else {
