@@ -125,6 +125,8 @@ var __spreadArray = this && this.__spreadArray || function (to, from) {
 
   return to;
 };
+/*---Global variables---*/
+
 
 var winning_combo = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 var X_class = 'x';
@@ -135,12 +137,18 @@ var restartBtn = document.getElementById('restart-btn');
 var cellElements = document.querySelectorAll('[data-cell]');
 var winningMsgTxt = document.querySelector('[data-winning-msg-text]');
 var circleTurn;
+/*--needed to know whose turn it is--*/
+
+/*---End Global Variables----*/
+
 startGame();
 restartBtn.addEventListener('click', startGame);
+/*--for the restartBtm to work you'd need to remove the classes (X, O) and event
+listener shown in the startGame function--*/
 
 function startGame() {
   circleTurn = false;
-  hoverClass();
+  boardHoverClass();
   cellElements.forEach(function (cell) {
     cell.classList.remove(X_class);
     cell.classList.remove(O_class);
@@ -148,13 +156,18 @@ function startGame() {
     cell.addEventListener('click', handleClick, {
       once: true
     });
+    /*--{once: true} ensures that a cell can be clicked only once---*/
   });
   winningMsg.classList.remove('show');
 }
 
 function handleClick(e) {
   var cell = e.target;
+  /*---the e argument is needed to be able to target the specific cell----*/
+
   var currentClass = circleTurn ? O_class : X_class;
+  /*--if its circles turn return O_class else X_class---short form of conditional---*/
+
   placeMark(cell, currentClass);
 
   if (checkWin(currentClass)) {
@@ -163,7 +176,7 @@ function handleClick(e) {
     endGame(true);
   } else {
     switchTurns();
-    hoverClass();
+    boardHoverClass();
   }
 }
 
@@ -189,14 +202,18 @@ function placeMark(cell, currentClass) {
 
 function switchTurns() {
   circleTurn = !circleTurn;
+  /*---this, !circleTurn, sets it to the opposite of circleTurn---*/
 }
 
-function hoverClass() {
+function boardHoverClass() {
   board.classList.remove(X_class);
+  /*---removing the classes on the board to make sure there is no class--*/
+
   board.classList.remove(O_class);
 
   if (circleTurn) {
     board.classList.add(O_class);
+    /*---adding the classes based on the player turn--*/
   } else {
     board.classList.add(X_class);
   }
@@ -206,6 +223,8 @@ function checkWin(currentClass) {
   return winning_combo.some(function (combination) {
     return combination.every(function (index) {
       return cellElements[index].classList.contains(currentClass);
+      /*--if the currentClass is in all three of the elements
+      inside the combination then there is a winner--*/
     });
   });
 }
@@ -237,7 +256,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50332" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51301" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
